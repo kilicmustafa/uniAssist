@@ -1,0 +1,72 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:beans="http://www.springframework.org/schema/c" xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <context:component-scan base-package="com.uniassist" />
+    <mvc:annotation-driven />
+    <mvc:resources mapping="/resources/**" location="/resources/" />
+    <task:annotation-driven />
+
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <property name="viewClass"
+                  value="org.springframework.web.servlet.view.JstlView" />
+        <property name="prefix" value="/WEB-INF/jsp/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+
+
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+        <property name="defaultLocale" value="de" />
+    </bean>
+
+    <bean id="messageSource"
+          class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="messages" />
+        <property name="defaultEncoding" value="UTF-8" />
+    </bean>
+
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**" />
+            <bean id="localeChangeInterceptor"
+                  class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+                <property name="paramName" value="lang" />
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+
+        <!-- one of the properties available; the maximum file size in bytes -->
+        <property name="maxUploadSize" value="15000000"/>
+
+    </bean>
+
+    <bean id="agencyDao" class="com.uniassist.repository.implementations.AgencyDaoImpl"/>
+    <bean id="applicationDao" class="com.uniassist.repository.implementations.ApplicationDaoImpl"/>
+    <bean id="applicationStateDao" class="com.uniassist.repository.implementations.ApplicationStateDaoImpl"/>
+    <bean id="applicationTypeDao" class="com.uniassist.repository.implementations.ApplicationTypeDaoImpl"/>
+    <bean id="documentDao" class="com.uniassist.repository.implementations.DocumentDaoImpl"/>
+    <bean id="noteDao" class="com.uniassist.repository.implementations.NoteDaoImpl"/>
+    <bean id="pendingDao" class="com.uniassist.repository.implementations.PendingDaoImpl"/>
+    <bean id="roleDao" class="com.uniassist.repository.implementations.RoleDaoImpl"/>
+    <bean id="userDao" class="com.uniassist.repository.implementations.UserDaoImpl"/>
+    <bean id="trashDao" class="com.uniassist.repository.implementations.TrashDaoImpl"/>
+    <bean id="applicationDocDao" class="com.uniassist.repository.implementations.ApplicationDocDao" />
+    <bean id="applicationFormatDao" class="com.uniassist.repository.implementations.ApplicationFormatDao" />
+    <bean id="analyticsDao" class="com.uniassist.repository.implementations.AnalyticsDaoImpl" />
+    <bean id="scheduleService" class="com.uniassist.services.ScheduleService" />
+    <bean id="remindDao" class="com.uniassist.repository.implementations.RemindDaoImpl" />
+</beans>
